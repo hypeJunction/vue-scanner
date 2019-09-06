@@ -40,6 +40,7 @@ Configure vue-scanner in `package.json`:
         "json": "./src/components.json"
       },
       "chunks": true,
+      "requestChunks": false,
       "chunkPrefix": "components/"
     }
 }
@@ -47,6 +48,8 @@ Configure vue-scanner in `package.json`:
 
 Components are grouped into categories, i.e. "atoms" and "molecules", whereas each category may have multiple source directories. Group names can be used to define webpack chunks.
 Each group can be async (in which case dynamic `import` with chunk name is used) or sync (in which case `require` statement is used);
+
+If you would like each component to be exported as a separate chunk, set `requestChunks` to true.
 
 The script will write two files: `js` and `json`. `js` file will contain `Vue.component()` declarations, whereas `json` file contains a list of all components with their names and paths.
 

@@ -37,7 +37,7 @@ export const listComponents = (groups = {}) => {
     return components;
 };
 
-export const writeJsSpecFile = ({ components, outputFile, chunks, chunkPrefix }) => {
+export const writeJsSpecFile = ({ components, outputFile, chunks, chunkPrefix, requestChunks }) => {
     const target = path.join(process.cwd(), outputFile);
 
     if (!fs.existsSync(target)) {
@@ -55,7 +55,8 @@ export const writeJsSpecFile = ({ components, outputFile, chunks, chunkPrefix })
         const componentPath = './' + path.relative(path.dirname(target), component.path).replace(/\\/ig, '/');
 
         if (component.async) {
-            const chunkAnnotation = chunks ? `/* webpackChunkName: ${chunkPrefix}${component.group} */ ` : '';
+            const chunkName = requestChunks ? `${chunkPrefix}[request]` : `${chunkPrefix}${component.group}`;
+            const chunkAnnotation = chunks ? `/* webpackChunkName: "${chunkName}" */ ` : '';
 
             lines.push(`Vue.component('${component.name}', () => import(${chunkAnnotation}'${componentPath}'));`);
         } else {
@@ -94,6 +95,7 @@ export const writeSpecFiles = (options) => {
         src = {},
         target = {},
         chunks = false,
+        requestChunks = false,
         chunkPrefix = '',
     } = options;
 
@@ -105,6 +107,7 @@ export const writeSpecFiles = (options) => {
             outputFile: target.js,
             chunks,
             chunkPrefix,
+            requestChunks,
         });
     }
 
