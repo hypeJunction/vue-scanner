@@ -1,0 +1,23 @@
+{
+  "name": "@hypejunction/vue-scanner",
+  "license": "MIT",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "babel src/cli -d cli"
+  },
+  "main": "src/cli/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5"
+  },
+  "bin": {
+    "vue-scanner": "cli/scan.js"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  }
+}
