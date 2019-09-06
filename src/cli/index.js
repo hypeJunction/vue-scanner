@@ -55,7 +55,7 @@ export const writeJsSpecFile = ({ components, outputFile, chunks, chunkPrefix, r
         const componentPath = './' + path.relative(path.dirname(target), component.path).replace(/\\/ig, '/');
 
         if (component.async) {
-            const chunkName = requestChunks ? `${chunkPrefix}[request]` : `${chunkPrefix}${component.group}`;
+            const chunkName = requestChunks ? `${chunkPrefix}${component.group}/${component.name}` : `${chunkPrefix}${component.group}`;
             const chunkAnnotation = chunks ? `/* webpackChunkName: "${chunkName}" */ ` : '';
 
             lines.push(`Vue.component('${component.name}', () => import(${chunkAnnotation}'${componentPath}'));`);
