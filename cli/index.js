@@ -69,7 +69,8 @@ var writeJsSpecFile = function writeJsSpecFile(_ref) {
   var components = _ref.components,
       outputFile = _ref.outputFile,
       chunks = _ref.chunks,
-      chunkPrefix = _ref.chunkPrefix;
+      chunkPrefix = _ref.chunkPrefix,
+      requestChunks = _ref.requestChunks;
 
   var target = _path["default"].join(process.cwd(), outputFile);
 
@@ -83,7 +84,8 @@ var writeJsSpecFile = function writeJsSpecFile(_ref) {
     var componentPath = './' + _path["default"].relative(_path["default"].dirname(target), component.path).replace(/\\/ig, '/');
 
     if (component.async) {
-      var chunkAnnotation = chunks ? "/* webpackChunkName: ".concat(chunkPrefix).concat(component.group, " */ ") : '';
+      var chunkName = requestChunks ? "".concat(chunkPrefix, "[request]") : "".concat(chunkPrefix).concat(component.group);
+      var chunkAnnotation = chunks ? "/* webpackChunkName: \"".concat(chunkName, "\" */ ") : '';
       lines.push("Vue.component('".concat(component.name, "', () => import(").concat(chunkAnnotation, "'").concat(componentPath, "'));"));
     } else {
       lines.push("Vue.component('".concat(component.name, "', require('").concat(componentPath, "').default);"));
@@ -126,6 +128,8 @@ var writeSpecFiles = function writeSpecFiles(options) {
       target = _options$target === void 0 ? {} : _options$target,
       _options$chunks = options.chunks,
       chunks = _options$chunks === void 0 ? false : _options$chunks,
+      _options$requestChunk = options.requestChunks,
+      requestChunks = _options$requestChunk === void 0 ? false : _options$requestChunk,
       _options$chunkPrefix = options.chunkPrefix,
       chunkPrefix = _options$chunkPrefix === void 0 ? '' : _options$chunkPrefix;
   var components = listComponents(src);
@@ -135,7 +139,8 @@ var writeSpecFiles = function writeSpecFiles(options) {
       components: components,
       outputFile: target.js,
       chunks: chunks,
-      chunkPrefix: chunkPrefix
+      chunkPrefix: chunkPrefix,
+      requestChunks: requestChunks
     });
   }
 
